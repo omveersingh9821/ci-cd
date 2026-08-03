@@ -1,22 +1,30 @@
-name: Demo CI
+name: Build FastAPI Application
 
 on:
   push:
     branches:
       - main
 
+env:
+  APP_NAME: demo-fastapi
+  PYTHON_VERSION: "3.11"
+
 jobs:
-  build:
+
+  build-and-test:
+
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+
+      - name: Checkout Source
         uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
 
       - name: Install Dependencies
         run: |
@@ -27,17 +35,15 @@ jobs:
         run: |
           echo "No tests yet"
 
-      # 👇 New Step
-      - name: Set Image Tag
+      - name: Generate Image Tag
         run: |
           echo "IMAGE_TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
 
-      # 👇 Modified Step
       - name: Build Docker Image
         run: |
-          docker build -t demo-fastapi:$IMAGE_TAG ./app
+          docker build \
+            -t $APP_NAME:$IMAGE_TAG \
+            ./app
 
-      # 👇 New Step
-      - name: Verify Docker Image
-        run: |
-          docker images
+      - name: Verify Image
+        run: docker images
