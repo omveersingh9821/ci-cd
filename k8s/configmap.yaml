@@ -1,0 +1,15 @@
+apiVersion: v1
+
+kind: ConfigMap
+
+metadata:
+  name: demo-config
+
+data:
+  DATABASE_URL: mongodb://mongodb-service:27017
+
+  APP_ENV: development
+
+  LOG_LEVEL: INFO
+
+  PORT: "8000"

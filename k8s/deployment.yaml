@@ -20,5 +20,8 @@ spec:
         - name: demo-fastapi
           image: demo-fastapi:v1 # Image to run
           imagePullPolicy: Never
+          envFrom:
+            - configMapRef:
+                name: demo-config
           ports:
             - containerPort: 8000 # Port to expose
