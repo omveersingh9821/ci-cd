@@ -6,13 +6,10 @@ on:
       - main
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -30,7 +27,17 @@ jobs:
         run: |
           echo "No tests yet"
 
+      # 👇 New Step
+      - name: Set Image Tag
+        run: |
+          echo "IMAGE_TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
+      # 👇 Modified Step
       - name: Build Docker Image
         run: |
-          cd app
-          docker build -t demo-fastapi:v1 .
+          docker build -t demo-fastapi:$IMAGE_TAG ./app
+
+      # 👇 New Step
+      - name: Verify Docker Image
+        run: |
+          docker images
