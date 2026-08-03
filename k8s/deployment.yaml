@@ -23,5 +23,19 @@ spec:
           envFrom:
             - configMapRef:
                 name: demo-config
+            - secretRef:
+                name: demo-secret
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config/config.staging.json
+              subPath: config.staging.json
+              readOnly: true
           ports:
             - containerPort: 8000 # Port to expose
+      volumes:
+        - name: config-volume
+          configMap:
+            name: demo-config
+            items:
+              - key: config.staging.json
+                path: config.staging.json
