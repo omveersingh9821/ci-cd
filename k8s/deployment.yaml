@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: demo-fastapi-deployment
+  labels:
+    app: demo-fastapi-deployment
+
+spec:
+  replicas: 3  # Always keep 3 pods running
+  selector:
+    matchLabels: # Which pods to manage (based on labels)
+      app: demo-fastapi
+  template:  # Template for creating new pods
+    metadata:
+      labels: 
+        app: demo-fastapi # Label will be used to identify the pods
+    spec:
+      containers:
+        - name: demo-fastapi
+          image: demo-fastapi:v1 # Image to run
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000 # Port to expose

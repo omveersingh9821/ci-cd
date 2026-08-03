@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-fastapi-service
+spec:
+  selector:
+    app: demo-fastapi # How does Service know which Pods to send traffic to?
+  ports: # Traffic received on Service port 80 is forwarded to container port 8000.
+    - port: 80
+      targetPort: 8000
+  type: ClusterIP # Only accessible within the cluster
