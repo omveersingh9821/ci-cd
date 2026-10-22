@@ -8,5 +8,5 @@ test('health check', async () => {
 
 test('adds numbers', async () => {
   const res = await request(app).get('/add?a=2&b=3');
-  expect(res.body.result).toBe(6);
+  expect(res.body.result).toBe(5);
 });
